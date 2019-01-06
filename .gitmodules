@@ -1,0 +1,4 @@
+[submodule "lib/misskey"]
+	path = lib/misskey
+	url = https://github.com/syuilo/misskey.git
+	branch = master
