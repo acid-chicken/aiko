@@ -1,10 +1,8 @@
-# [![Misskey](https://github.com/syuilo/misskey/blob/master/assets/title.png?raw=true)](https://github.com/syuilo/misskey) on [![Aiko](/assets/logo.png)](https://github.com/acid-chicken/aiko)
+# <img src="assets/header.png" alt="Misskey on Aiko" height="64">
 
 Aiko is an alternative back-end server for Misskey.
 
 ## Build
-
-Just 3 steps.
 
 ```bash
 ./configure
