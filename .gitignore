@@ -5,6 +5,7 @@
 
 # Aiko
 .DS_Store
+Makefile
 src/Aiko/wwwroot
 src/Misskey
 

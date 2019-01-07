@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+
+echo -n 'JSC = ' > Makefile
+if type yarn > /dev/null
+ then
+  echo 'yarn' >> Makefile
+ else
+  echo 'npm' >> Makefile
+fi
+
+cat <<EOF >> Makefile
+wwwroot = src/Aiko/wwwroot
+misskey = src/Misskey
+libmsky = lib/misskey
+modules = .gitmodules
+
+\$(wwwroot): | \$(misskey)
+	@cd \$(misskey); \
+	\$(JSC) install; \
+	NODE_ENV=production \$(JSC) run build; \
+	cp -R built/client/assets ../../\$(wwwroot); \
+	ls -1 built/server/file/assets | xargs -I% sh -c 'cp built/server/file/assets/'%' ../../\$(wwwroot)'
+
+\$(misskey): | \$(libmsky)
+	@cp -R \$(libmsky) \$(misskey)
+	@ls -1 diff | grep -v \.d\$ | xargs -I% sh -c 'ed \$(misskey)/'%' < diff/'%' > /dev/null'
+	@ed \$(misskey)/locales/ja-JP.yml < diff/locales.d/ja-JP.yml > /dev/null
+	@for x in de-DE en-US fr-FR ja-KS pl-PL es-ES nl-NL zh-CN ko-KR; do ed \$(misskey)/locales/\$\$x.yml < diff/locales.d/.yml > /dev/null; done
+
+\$(libmsky): | \$(modules)
+	@git submodule sync --recursive
+
+clean:
+	@\$(RM) -r \$(wwwroot)
+	@\$(RM) -r \$(misskey)
+EOF
