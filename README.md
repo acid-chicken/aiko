@@ -16,7 +16,10 @@ git clone --recursive https://github.com/acid-chicken/aiko.git
 
 ```bash
 cp -R lib/misskey src/Misskey
-ls -1 diff | xargs -I% sh -c 'ed src/Misskey/'%' < diff/'%
+ls -1 diff | grep -v \.d$ | xargs -I% sh -c 'ed src/Misskey/'%' < diff/'%
+for x in de-DE en-US fr-FR ja-JP ja-KS pl-PL es-ES nl-NL zh-CN ko-KR
+do ed src/Misskey/locales/$x.yml < diff/locales.d
+done
 ```
 
 ### 3. build client
